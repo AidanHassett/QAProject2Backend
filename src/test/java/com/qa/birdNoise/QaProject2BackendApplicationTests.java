@@ -1,4 +1,4 @@
-package com.qa.userData;
+package com.qa.birdNoise;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
