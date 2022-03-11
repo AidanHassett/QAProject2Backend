@@ -1,4 +1,4 @@
-package com.qa.userData;
+package com.qa.birdNoise;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
