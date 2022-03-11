@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.birdNoise.domain.BirdNoise;
@@ -28,8 +29,9 @@ public class BirdNoiseController {
 		this.bnServ = bnServ;
 	}
 
-	@PostMapping("/createBirdNoise")
-	public ResponseEntity<BirdNoise> create(@RequestBody BirdNoise bn) {
+	@PostMapping(value = "/createBirdNoise", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<BirdNoise> create(@RequestPart("poster") String poster, @RequestPart("content") String content) {
+		BirdNoise bn = new BirdNoise(poster, content);
 		BirdNoise created = this.bnServ.create(bn);
 		return new ResponseEntity<BirdNoise>(created, HttpStatus.CREATED);
 	}
@@ -70,8 +72,14 @@ public class BirdNoiseController {
 		return new ResponseEntity<List<BirdNoise>>(bn, status);
 	}
 
-	@PutMapping("/replaceBirdNoise")
-	public ResponseEntity<?> replace(@RequestBody BirdNoise bn) {
+	@PutMapping(value = "/replaceBirdNoise", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> replace(
+			@RequestPart("id") Integer id, 
+			@RequestPart("poster") String poster,
+			@RequestPart("content") String content,
+			@RequestPart("likes") Integer likes
+		) {
+		BirdNoise bn = new BirdNoise(id, poster, null, content, likes);
 		HttpStatus status;
 		if (this.bnServ.replace(bn)) {
 			status = HttpStatus.OK;
