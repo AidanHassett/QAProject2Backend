@@ -25,14 +25,22 @@ public class BirdNoise {
 	public BirdNoise() {
 		super();
 	}
-
-	public BirdNoise(Integer id, String poster, String content) {
+	
+	public BirdNoise(Integer id, String poster, Date timeCreated, String content, Integer likes) {
 		super();
 		this.id = id;
 		this.poster = poster;
-		this.timeCreated = Date.from(Instant.now());
+		this.timeCreated = timeCreated;
 		this.content = content;
-		this.likes = 0;
+		this.likes = likes;
+	}
+	
+	public BirdNoise(Integer id, String poster, String content) {
+		this(id, poster, Date.from(Instant.now()), content, 0);
+	}
+	
+	public BirdNoise(String poster, String content) {
+		this(null, poster, content);
 	}
 
 	public BirdNoise(BirdNoise in) {
