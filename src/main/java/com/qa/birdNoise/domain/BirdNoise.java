@@ -6,41 +6,46 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import org.springframework.data.annotation.Id;
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Entity
 public class BirdNoise {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String poster;
 	private Date timeCreated;
 	private String content;
-	private Long likes;
-	
+	@Value("0")
+	private Integer likes;
+
 	public BirdNoise() {
 		super();
 	}
-	
-	public BirdNoise(Long id, String poster, String content, Long likes) {
+
+	public BirdNoise(Integer id, String poster, String content) {
 		super();
 		this.id = id;
 		this.poster = poster;
 		this.timeCreated = Date.from(Instant.now());
 		this.content = content;
-		this.likes = likes;
-	}
-	
-	public BirdNoise(BirdNoise in) {
-		this(in.getId(), in.getPoster(), in.getContent(), in.getLikes());
+		this.likes = 0;
 	}
 
-	public Long getId() {
+	public BirdNoise(BirdNoise in) {
+		this(in.getId(), in.getPoster(), in.getContent());
+		this.setLikes(in.getLikes());
+		this.setTimeCreated(in.getTimeCreated());
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -68,16 +73,16 @@ public class BirdNoise {
 		this.content = content;
 	}
 
-	public Long getLikes() {
+	public Integer getLikes() {
 		return likes;
 	}
 
-	public void setLikes(Long likes) {
+	public void setLikes(Integer likes) {
 		this.likes = likes;
 	}
-	
+
 	public void addLike() {
 		this.likes++;
 	}
-	
+
 }
